@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 100%; margin: 0">
+       <div id="container" style="height: 100%"></div>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+       <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=xfhhaTThl11qYVrqLZii6w8qE5ggnhrY&__ec_v__=20190126"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+       <script type="text/javascript">
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+function randomData(v) {
+    now = new Date(+now + oneDay);
+    value = v;
+    return {
+        name: now.toString(),
+        value: [
+            [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
+            value
+        ]
+    }
+}
+
+var num=0
+var index=[];
+var data = [];
+var data2= [];
+var data_ua=[];
+var data_ub=[];
+var data_ia=[];
+var data_ib=[];
+var data_Pa=[];
+var data_Pb=[];
+var data_PFa=[];
+var data_PFb=[];
+var now = +new Date('2019-4-1 11:11:11.111');
+var oneDay = 300;
+var value = Math.random() * 1000;
+{% for i in pa %}
+    data.push(randomData({{i}}))
+{% endfor %}
+{% for j in pb %}
+    data2.push(randomData({{j}}))
+{% endfor %}
+{% for i in ua %}
+    data_ua.push(randomData({{i}}))
+{% endfor %}
+{% for j in ub %}
+    data_ub.push(randomData({{j}}))
+{% endfor %}
+{% for i in ia %}
+    data_ia.push(randomData({{i}}))
+{% endfor %}
+{% for j in ib %}
+    data_ib.push(randomData({{j}}))
+{% endfor %}
+{% for i in Pa %}
+    data_Pa.push(randomData({{i}}))
+{% endfor %}
+{% for j in Pb %}
+    data_Pb.push(randomData({{j}}))
+{% endfor %}
+    {% for i in PFa %}
+    data_PFa.push(randomData({{i}}))
+{% endfor %}
+{% for j in PFb %}
+    data_PFb.push(randomData({{j}}))
+{% endfor %}
+option = {
+    title: {
+        text: '动态数据 + 时间坐标轴'
+    },
+    grid: [
+        {x: '7%', y: '10%', width: '25%', height: '25%'},
+        {x2: '7%', y: '10%', width: '25%', height: '25%'},
+        {x: '38%', y: '10%', width: '25%', height: '25%'},
+        {x: '7%', y: '55%', width: '25%', height: '25%'},
+        {x2: '7%', y: '55%', width: '25%', height: '25%'}
+
+    ],
+
+     toolbox: {
+        feature: {
+            restore: {},
+            saveAsImage: {}
+        }
+    },
+
+    tooltip: {
+        trigger: 'axis',
+
+        axisPointer: {
+            animation: false
+        }
+
+    },
+    xAxis: [
+        {gridIndex: 0,
+        type: 'time',
+
+        splitLine: {
+            show: false}
+        },
+        {gridIndex: 1,
+        type: 'time',
+
+        splitLine: {
+            show: false
+        }},
+        {gridIndex: 2,
+        type: 'time',
+
+        splitLine: {
+            show: false}
+        },
+        {gridIndex: 3,
+            type: 'time',
+
+            splitLine: {
+                show: false}
+        },
+        {gridIndex: 4,
+            type: 'time',
+
+            splitLine: {
+                show: false}
+            }
+    ]
+
+    ,
+    yAxis: [{gridIndex: 0,
+        min: function(value) {
+    return value.min - 1;
+},
+
+        max: function(value) {
+    return value.max + 1;
+},
+        name: 'A相功率(W)',
+        type: 'value',
+        boundaryGap: ['10%', '10%'],
+       splitLine: {
+            show: false
+        }
+    },
+    {gridIndex: 1,
+        min: 236.73,
+
+        max: function(value) {
+    return value.max + 0.1;
+},
+        name:'A相电压(V)',
+        type: 'value',
+        boundaryGap: ['10%', '10%'],
+       splitLine: {
+            show: false
+        }
+    },
+
+            {gridIndex: 2,
+        min: function(value) {
+    return value.min - 0.01;
+},
+
+        max: function(value) {
+    return value.max + 0.01;
+},
+        name: 'A相电流(A)',
+        type: 'value',
+        boundaryGap: ['10%', '10%'],
+       splitLine: {
+            show: false
+        }
+    },
+
+    {gridIndex: 3,
+min: function(value) {
+return value.min - 0.01;
+},
+
+max: function(value) {
+return value.max + 0.01;
+},
+name: '总功率(W)',
+type: 'value',
+boundaryGap: ['10%', '10%'],
+splitLine: {
+    show: false
+}
+}
+,
+{gridIndex: 4,
+	min: function(value) {
+	return value.min - 0.01;
+	},
+
+	max: function(value) {
+	return value.max + 0.01;
+	},
+	name: '功率因子(W)',
+	type: 'value',
+	boundaryGap: ['10%', '10%'],
+	splitLine: {
+	    show: false
+	}
+	}
+    ],
+
+    series: [{
+        name: 'A功率',
+        type: 'line',
+        showSymbol: false,
+        hoverAnimation: false,
+         xAxisIndex: 0,
+         yAxisIndex: 0,
+        data: data
+    },
+    {
+        name: '电压',
+        type: 'line',
+        showSymbol: false,
+        hoverAnimation: false,
+         xAxisIndex: 1,
+         yAxisIndex: 1,
+        data: data_ua
+    },
+    {
+        name: '电流',
+        type: 'line',
+        showSymbol: false,
+        hoverAnimation: false,
+         xAxisIndex: 2,
+         yAxisIndex: 2,
+        data: data_ia
+    },
+    {
+        name: '总功率',
+        type: 'line',
+        showSymbol: false,
+        hoverAnimation: false,
+         xAxisIndex: 3,
+         yAxisIndex: 3,
+        data: data_Pa
+    }
+    ,
+    {
+        name: '总功率因子',
+        type: 'line',
+        showSymbol: false,
+        hoverAnimation: false,
+         xAxisIndex: 4,
+         yAxisIndex: 4,
+        data: data_PFa
+    },
+     {
+        center: ['50%', '50%'],
+        radius: '30%',
+            name: '业务指标',
+            type: 'gauge',
+            detail: {formatter:'{value}%'},
+            data: [{value: 50, name: '完成率'}]
+        }
+    ]
+};
+
+setInterval(function () {
+
+
+
+        data.shift();
+        data.push(data2[num]);
+        data_ua.shift();
+        data_ua.push(data_ub[num]);
+        data_ia.shift();
+        data_ia.push(data_ib[num]);
+        data_Pa.shift();
+        data_Pa.push(data_Pb[num]);
+        data_PFa.shift();
+        data_PFa.push(data_PFb[num]);
+       num=num+1;
+
+    myChart.setOption({
+        series: [{
+            xAxisIndex: 0,
+            yAxisIndex: 0,
+            data: data
+
+        },
+        {
+            xAxisIndex: 1,
+            yAxisIndex: 1,
+            data: data_ua
+
+        },
+         {
+            xAxisIndex: 2,
+            yAxisIndex: 2,
+            data: data_ia
+         },
+
+         {
+            xAxisIndex: 3,
+            yAxisIndex: 3,
+            data: data_Pa
+         }
+         ,
+
+         {
+            xAxisIndex: 4,
+            yAxisIndex: 4,
+            data: data_PFa
+         },
+         {
+            data: [{value: (Math.random() * 100).toFixed(2) - 0, name: '完成率'}]
+        }
+        ]
+
+    });
+}, 300);;
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+       </script>
+   </body>
+</html>

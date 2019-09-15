@@ -1,0 +1,26 @@
+xAxis: {
+        type: 'category',
+        data: index
+    }
+
+index.push({{i}})
+
+    min: Math.ceil(Math.min.apply(null, [580,590])),
+    max: Math.ceil(Math.max.apply(null, [580,590])),
+
+    {
+        type: 'time',
+
+        splitLine: {
+            show: false
+        }
+
+        {
+            xAxisIndex: 1,
+            yAxisIndex: 1,
+            data: data_ua
+
+        }
+
+        data_ua.shift()
+       data.push(data_ub[num]);
